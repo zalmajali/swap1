@@ -63,6 +63,7 @@ export class AppComponent {
     });
     this.firebaseMessaging.subscribe("swap");
     this.firebaseMessaging.getToken().then(function(token) {
+      alert(token)
       console.log("Got device token: ", token);
     });
     this.firebaseMessaging.onMessage().subscribe((data:any)=>{
