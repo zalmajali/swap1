@@ -60,7 +60,7 @@
                 <string>remote-notification</string>
             </array>
         </config-file>
-        <resource-file src="GoogleService-Info.plist" />
+       <resource-file src="GoogleService-Info.plist" target="resources/GoogleService-Info.plist" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.jpg" width="57" />
