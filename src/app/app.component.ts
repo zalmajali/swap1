@@ -61,21 +61,16 @@ export class AppComponent {
     this.firebaseMessaging.requestPermission({forceShow: false}).then(function() {
       console.log("Push messaging is allowed");
     });
-    this.firebaseMessaging.subscribe("swap");
-    this.firebaseMessaging.getToken().then(function(token) {
-      alert(token)
+    await this.firebaseMessaging.subscribe("zeyadal");
+    await this.firebaseMessaging.getToken().then(function(token) {
       console.log("Got device token: ", token);
     });
-    this.firebaseMessaging.onMessage().subscribe((data:any)=>{
-      alert(JSON.stringify(data))
+    await this.firebaseMessaging.onMessage().subscribe((data:any)=>{
+      console.log(data);
     })
-    this.firebaseMessaging.onBackgroundMessage().subscribe((data:any)=>{
-      alert(JSON.stringify(data))
+    await this.firebaseMessaging.onBackgroundMessage().subscribe((data:any)=>{
+      console.log(data);
     })
-    this.firebaseMessaging.unsubscribe("swap");
-    setTimeout(()=>{
-      this.zeyad();
-    },3500)
   }
   async goPageValue(){
     this.facebookLink = await this.storage.get('facebookLink');
