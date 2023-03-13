@@ -67,10 +67,10 @@ export class AppComponent {
       console.log("Got device token: ", token);
     });
     this.firebaseMessaging.onMessage().subscribe((data:any)=>{
-      console.log(data);
+      alert(JSON.stringify(data))
     })
     this.firebaseMessaging.onBackgroundMessage().subscribe((data:any)=>{
-      console.log(data);
+      alert(JSON.stringify(data))
     })
     this.firebaseMessaging.unsubscribe("swap");
     setTimeout(()=>{
