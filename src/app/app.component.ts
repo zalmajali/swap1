@@ -57,7 +57,7 @@ export class AppComponent {
     });
     this.goPageValue()
   }
-  zeyad(){
+  async zeyad(){
     this.firebaseMessaging.requestPermission({forceShow: false}).then(function() {
       console.log("Push messaging is allowed");
     });
