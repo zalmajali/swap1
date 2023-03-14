@@ -68,11 +68,22 @@ export class AppComponent {
     await this.firebaseMessaging.subscribe("swapko");
     await this.firebaseMessaging.onMessage().subscribe(async (data:any)=>{
       if(this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone')){
-        alert(JSON.stringify(data))
         this.titlePush = data.aps.alert.title;
-        alert(data.fcm_options.image);
         this.subHeaderPush = data.aps.alert.body;
-        this.imagePush = data.aps.alert.imageURL;
+        this.imagePush = "";
+        if(data.fcm_options.image!=null && data.fcm_options.image!=null && data.fcm_options.image!=undefined && data.fcm_options.image!=0 && data.fcm_options.image!="")
+          this.imagePush ='<img src="'+data.fcm_options.image+'" width="100%">';
+        if(data.aps.alert.body!=null && data.aps.alert.body!=null && data.aps.alert.body!=undefined && data.aps.alert.body!=0 && data.aps.alert.body!=""){
+          const alert = await this.alertController.create({
+            header: this.titlePush,
+            subHeader: this.subHeaderPush,
+            cssClass: 'alertBacPush',
+            mode: 'ios',
+            message: this.imagePush,
+            buttons: []
+          });
+          await alert.present();
+        }
       }
       if(this.platform.is('android')){
         this.titlePush = data.gcm.title;
