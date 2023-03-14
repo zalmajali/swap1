@@ -68,6 +68,7 @@ export class AppComponent {
     await this.firebaseMessaging.subscribe("swapko");
     await this.firebaseMessaging.onMessage().subscribe(async (data:any)=>{
       if(this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone')){
+        console.log(data);
         this.titlePush = data.aps.alert.title;
         alert(this.titlePush);
         this.subHeaderPush = data.aps.alert.body;
