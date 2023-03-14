@@ -70,7 +70,7 @@ export class AppComponent {
       if(this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone')){
         alert(JSON.stringify(data))
         this.titlePush = data.aps.alert.title;
-        alert(this.titlePush);
+        alert(data.image);
         this.subHeaderPush = data.aps.alert.body;
         this.imagePush = data.aps.alert.imageURL;
       }
