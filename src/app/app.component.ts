@@ -50,6 +50,10 @@ export class AppComponent {
   public instagramLink:any;
   public facebookLink:any;
   public youtupeLink:any;
+
+  public titlePush:any;
+  public subHeaderPush:any;
+  public imagePush:any;
   constructor(private firebaseMessaging : FirebaseMessaging,private toastCtrl: ToastController,private navCtrl: NavController,private iab: InAppBrowser,private menu:MenuController,private alertController:AlertController,private statusBar:StatusBar,private router : Router,private platform : Platform,private storage: Storage) {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString('#494949');
@@ -61,15 +65,36 @@ export class AppComponent {
     this.firebaseMessaging.requestPermission({forceShow: false}).then(function() {
       console.log("Push messaging is allowed");
     });
-    await this.firebaseMessaging.subscribe("zeyadal");
-    await this.firebaseMessaging.getToken().then(function(token) {
-      console.log("Got device token: ", token);
-    });
-    await this.firebaseMessaging.onMessage().subscribe((data:any)=>{
-      console.log(data);
+    await this.firebaseMessaging.subscribe("swapko");
+    await this.firebaseMessaging.onMessage().subscribe(async (data:any)=>{
+      if(this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone')){
+        this.titlePush = data.aps.alert.title;
+        alert(this.titlePush);
+        this.subHeaderPush = data.aps.alert.body;
+        this.imagePush = data.aps.alert.imageURL;
+      }
+      if(this.platform.is('android')){
+        this.titlePush = data.gcm.title;
+        this.subHeaderPush = data.gcm.body;
+        this.imagePush = "";
+        if(data.gcm.imageUrl!=null && data.gcm.imageUrl!=null && data.gcm.imageUrl!=undefined && data.gcm.imageUrl!=0 && data.gcm.imageUrl!="")
+          this.imagePush ='<img src="'+data.gcm.imageUrl+'" width="100%">';
+        if(data.gcm.body!=null && data.gcm.body!=null && data.gcm.body!=undefined && data.gcm.body!=0 && data.gcm.body!=""){
+          const alert = await this.alertController.create({
+            header: this.titlePush,
+            subHeader: this.subHeaderPush,
+            cssClass: 'alertBacPush',
+            mode: 'ios',
+            message: this.imagePush,
+            buttons: []
+          });
+          await alert.present();
+        }
+      }
     })
     await this.firebaseMessaging.onBackgroundMessage().subscribe((data:any)=>{
-      console.log(data);
+     // console.log(data);
+      console.log("asdasdasd");
     })
   }
   async goPageValue(){
